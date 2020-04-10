@@ -118,11 +118,11 @@ tPaquete *recibirMensaje(int socketFuente){
 
 
 
-void inicializarColas(){
+/*void inicializarColas(){
 	  NEW_POKEMON=queue_create();
 	  APPEARED_POKEMON=queue_create();
 	  CATCH_POKEMON=queue_create();
 	  CAUGHT_POKEMON=queue_create();
 	  GET_POKEMON=queue_create();
 	  LOCALIZED_POKEMON=queue_create();
-}
+}*/
