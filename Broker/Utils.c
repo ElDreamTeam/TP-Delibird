@@ -106,6 +106,7 @@ void enviarMensaje(char * mensaje, int socketDestino){
 tPaquete *recibirMensaje(int socketFuente){
 
 	tPaquete *paqueteRecibido = malloc(sizeof(tPaquete));
+	paqueteRecibido->buffer=malloc(sizeof(tBuffer));
 
 	recv(socketFuente,&(paqueteRecibido->codOperacion),sizeof(int),MSG_WAITALL);
 	recv(socketFuente,&(paqueteRecibido->buffer->size),sizeof(int),MSG_WAITALL);
