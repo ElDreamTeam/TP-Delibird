@@ -57,10 +57,10 @@ int * esperarCliente(int socketEscucha, int backlog)
 {
 	listen(socketEscucha, backlog);
 	struct sockaddr_in addr;
-    socklen_t addrlen = sizeof(addr);
-    int *socketCliente = (int*)malloc(sizeof(int));
-	*socketCliente=accept(socketEscucha, (struct sockaddr *) &addr, &addrlen);
-    return socketCliente;
+       socklen_t addrlen = sizeof(addr);
+       int *socketCliente = (int*)malloc(sizeof(int));
+       *socketCliente=accept(socketEscucha, (struct sockaddr *) &addr, &addrlen);
+       return socketCliente;
 }
 
 void * serializarPaquete(tPaquete* paquete, int tamanioAEnviar)
@@ -70,9 +70,9 @@ void * serializarPaquete(tPaquete* paquete, int tamanioAEnviar)
 
 	memcpy(aEnviar+offset,&(paquete->codOperacion),sizeof(int));
 	offset+=sizeof(int);
-    memcpy(aEnviar+offset,&(paquete->buffer->size),sizeof(int));
-    offset+=sizeof(int);
-    memcpy(aEnviar+offset,paquete->buffer->stream,paquete->buffer->size);
+       memcpy(aEnviar+offset,&(paquete->buffer->size),sizeof(int));
+       offset+=sizeof(int);
+       memcpy(aEnviar+offset,paquete->buffer->stream,paquete->buffer->size);
 
     return aEnviar;
 }
@@ -80,26 +80,26 @@ void * serializarPaquete(tPaquete* paquete, int tamanioAEnviar)
 void enviarMensaje(char * mensaje, int socketDestino){
 
 	int longMensaje = strlen(mensaje);
-    tBuffer *buffer = malloc(sizeof(tBuffer));
-    tPaquete *paquete = malloc(sizeof(tPaquete));
+       tBuffer *buffer = malloc(sizeof(tBuffer));
+       tPaquete *paquete = malloc(sizeof(tPaquete));
 
-    buffer->size = longMensaje+1;
-    buffer->stream = malloc(buffer->size);
+       buffer->size = longMensaje+1;
+       buffer->stream = malloc(buffer->size);
 
-    memcpy(buffer->stream,mensaje,buffer->size);
+      memcpy(buffer->stream,mensaje,buffer->size);
 
-    paquete->buffer=buffer;
-    paquete->codOperacion=MENSAJE;
+      paquete->buffer=buffer;
+      paquete->codOperacion=MENSAJE;
 
-    int tamanioAEnviar = 2*sizeof(int)+buffer->size;
-    void* aEnviar = serializarPaquete(paquete,tamanioAEnviar);
+      int tamanioAEnviar = 2*sizeof(int)+buffer->size;
+      void* aEnviar = serializarPaquete(paquete,tamanioAEnviar);
 
-    send(socketDestino,aEnviar,tamanioAEnviar,0);
+      send(socketDestino,aEnviar,tamanioAEnviar,0);
 
-    free(buffer->stream);
-    free(buffer);
-    free(paquete);
-    free(aEnviar);
+      free(buffer->stream);
+      free(buffer);
+      free(paquete);
+      free(aEnviar);
 }
 
 /**/
